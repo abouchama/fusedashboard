@@ -6,6 +6,9 @@ metadata:
     app: grafana
 spec:
   name: fuse-dashboard.json
+  datasources:
+  - inputName: "DS_PROMETHEUS"
+    datasourceName: "Prometheus"
   json: >
     {
       "__inputs": [
@@ -811,6 +814,3 @@ spec:
       "uid": "bIx0BxeZk",
       "version": 23
     }
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
