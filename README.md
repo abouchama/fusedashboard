@@ -1,10 +1,27 @@
-The following Grafana resources are supported:
+The Grafana operator provides the following api resources:
 
 - Grafana
 - GrafanaDashboard
 - GrafanaDatasource
 
 all custom resources use the api group `integreatly.org` and version `v1alpha1`.
+
+# Install Grafana Operator
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: grafana-operator
+  namespace: fuse7
+spec:
+  installPlanApproval: Automatic
+  name: grafana-operator
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+EOF
+```
 
 # Creating Grafana Instance
 
