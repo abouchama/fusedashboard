@@ -1,4 +1,20 @@
-# Prometheus Service Monitor
+# Prometheus 
+
+- Install the custom resource definitions necessary for running the Prometheus operator
+
+```
+# Install prometheus CRD:
+
+oc replace -f https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.0.fuse-760042-redhat-00001/fuse-prometheus-crd.yml
+```
+
+- Install the Prometheus operator to your namespace
+
+```
+oc process -f https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.0.fuse-760042-redhat-00001/fuse-prometheus-operator.yml -p NAMESPACE=fuse7 | oc create -f -
+```
+
+## Service Monitor
 Creating Service monitor for our Fuse applications that should be monitored.
 Run the following commands per Fuse Service:
 
@@ -50,7 +66,8 @@ The Grafana operator provides the following api resources:
 
 all custom resources use the api group `integreatly.org` and version `v1alpha1`.
 
-# Install Grafana Operator
+# Grafana
+## Install Grafana Operator
 
 ```
 cat <<EOF | kubectl apply -f -
@@ -75,16 +92,16 @@ We can check with if the `status` is `Succeeded` with the following command:
 oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
 ```
 
-# Creating Grafana Instance
+## Creating Grafana Instance
 ```
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/grafana.yaml
 ```
 
-# Creating Grafana Datasource
+## Creating Grafana Datasource
 ```
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/prometheus-ds.yaml
 ```
-# Creating Fuse dashboard
+## Creating Fuse dashboard
 
 By default the operator only watches for dashboards in it's own namespace. To watch for dashboards in other namespaces, the `--scan-all` flag must be passed.
 
@@ -94,7 +111,7 @@ $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/
 ```
 NOTE: it can take up to a minute until new dashboards are discovered by Grafana.
 
-# Open Grafana Console:
+## Open Grafana Console:
 
 ```
 open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
