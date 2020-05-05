@@ -24,6 +24,13 @@ spec:
 EOF
 ```
 
+Since the operator takes some time to install, We should wait for it to complete.
+We can check with if the `status` is `Succeeded` with the following command:
+
+```
+oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
+```
+
 # Creating Grafana Instance
 ```
 $ oc create -f grafana.yaml
