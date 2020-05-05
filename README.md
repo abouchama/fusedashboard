@@ -1,3 +1,44 @@
+# Prometheus
+For each Fuse application, you have to run the following commands:
+
+```
+export FUSE_SERVICE_NAME=customers2
+export NAMESPACE=fuse7
+
+cat <<EOF | kubectl apply -f -
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+   name: $FUSE_SERVICE_NAME
+   namespace: $NAMESPACE
+   labels:
+     team: fuse
+spec:
+   selector:
+     matchLabels:
+       app: $FUSE_SERVICE_NAME
+   endpoints:
+   - port: web
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+    name: $FUSE_SERVICE_NAME
+    namespace: $NAMESPACE
+    labels:
+      app: $FUSE_SERVICE_NAME
+spec:
+    selector:
+      app: $FUSE_SERVICE_NAME
+    ports:
+    - name: web
+      port: 9779
+EOF
+```
+
+# Grafana
 The Grafana operator provides the following api resources:
 
 - Grafana
