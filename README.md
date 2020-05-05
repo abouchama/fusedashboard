@@ -1,5 +1,5 @@
-# Prometheus
-For each Fuse application, you have to run the following commands:
+# Prometheus Service Monitor
+For each Fuse application, you have to run the following commands in order to configure the service monitor to discover your prometheus agent:
 
 ```
 export FUSE_SERVICE_NAME=customers2
