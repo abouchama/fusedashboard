@@ -36,10 +36,10 @@ oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/grafana.yaml
 ```
 
-Get the Grafana Host:
+Open Grafana Console:
 
 ```
-oc get routes/grafana-route -o yaml | yq read - 'spec.host'
+open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
 ```
 
 # Creating Grafana Datasource
