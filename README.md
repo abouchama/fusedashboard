@@ -33,11 +33,11 @@ oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
 
 # Creating Grafana Instance
 ```
-$ oc create -f grafana.yaml
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/grafana.yaml
 ```
 # Creating Grafana Datasource
 ```
-$ oc create -f prometheus-ds.yaml
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/prometheus-ds.yaml
 ```
 # Creating Fuse dashboard
 
@@ -45,6 +45,6 @@ By default the operator only watches for dashboards in it's own namespace. To wa
 
 To create Fuse Dashboard in the fuse namespace run:
 ```
-$ oc create -f FuseDashboard.yaml -n fuse
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/FuseDashboard.yaml
 ```
 NOTE: it can take up to a minute until new dashboards are discovered by Grafana.
