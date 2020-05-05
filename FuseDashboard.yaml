@@ -46,7 +46,7 @@ spec:
           "name": "Prometheus",
           "version": "1.0.0"
         }
-      ],
+      ], 
       "annotations": {
         "list": [
           {
@@ -64,16 +64,101 @@ spec:
       "editable": true,
       "gnetId": null,
       "graphTooltip": 0,
-      "id": null,
-      "iteration": 1588604139627,
+      "iteration": 1588664787586,
       "links": [],
       "panels": [
         {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": true,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "Prometheus",
+          "decimals": null,
+          "description": "Process Start time",
+          "format": "dateTimeAsIso",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 4,
+            "x": 0,
+            "y": 0
+          },
+          "id": 17,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "options": {},
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "process_start_time_seconds{pod=\"$pod\"}*1000",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Process Start time",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "datasource": "Prometheus",
           "description": "Memory currently being used by Fuse.",
           "gridPos": {
             "h": 6,
             "w": 5,
-            "x": 0,
+            "x": 4,
             "y": 0
           },
           "id": 8,
@@ -84,6 +169,7 @@ spec:
                 "mean"
               ],
               "defaults": {
+                "decimals": 2,
                 "max": 100,
                 "min": 0,
                 "unit": "percent"
@@ -128,75 +214,17 @@ spec:
           "type": "gauge"
         },
         {
-          "description": "Memory currently being used by Fuse.",
-          "gridPos": {
-            "h": 6,
-            "w": 5,
-            "x": 5,
-            "y": 0
-          },
-          "id": 9,
-          "links": [],
-          "options": {
-            "fieldOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "defaults": {
-                "max": 100,
-                "min": 0,
-                "unit": "percent"
-              },
-              "mappings": [],
-              "override": {},
-              "thresholds": [
-                {
-                  "color": "green",
-                  "index": 0,
-                  "value": null
-                },
-                {
-                  "color": "#EAB839",
-                  "index": 1,
-                  "value": 80
-                },
-                {
-                  "color": "red",
-                  "index": 2,
-                  "value": 90
-                }
-              ],
-              "values": false
-            },
-            "orientation": "auto",
-            "showThresholdLabels": false,
-            "showThresholdMarkers": true
-          },
-          "pluginVersion": "6.2.4",
-          "targets": [
-            {
-              "expr": "sum(jvm_memory_bytes_used{pod=\"$pod\", area=\"nonheap\"})*100/sum(jvm_memory_bytes_max{pod=\"$pod\", area=\"nonheap\"})",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Current Memory nonHEAP",
-          "type": "gauge"
-        },
-        {
           "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "Prometheus",
           "description": "Memory Usage",
           "fill": 1,
           "gridPos": {
             "h": 6,
-            "w": 13,
-            "x": 10,
+            "w": 7,
+            "x": 9,
             "y": 0
           },
           "id": 11,
@@ -292,6 +320,109 @@ spec:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "Prometheus",
+          "description": "Threads",
+          "fill": 1,
+          "gridPos": {
+            "h": 6,
+            "w": 7,
+            "x": 16,
+            "y": 0
+          },
+          "id": 19,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "jvm_threads_current{pod=\"$pod\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "current",
+              "refId": "A"
+            },
+            {
+              "expr": "jvm_threads_daemon{pod=\"$pod\"}",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "legendFormat": "daemon",
+              "refId": "B"
+            },
+            {
+              "expr": "jvm_threads_peak{pod=\"$pod\"}",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "legendFormat": "peak",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Threads",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Prometheus",
           "description": "Camel Exchanges",
           "fill": 1,
           "gridPos": {
@@ -399,6 +530,7 @@ spec:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "Prometheus",
           "description": "Camel Processing Time",
           "fill": 1,
           "gridPos": {
@@ -513,6 +645,7 @@ spec:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "Prometheus",
           "description": "Started Routes",
           "fill": 1,
           "gridPos": {
@@ -607,6 +740,7 @@ spec:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "Prometheus",
           "description": "Camel Failures & Redelivries",
           "fill": 1,
           "gridPos": {
@@ -714,8 +848,11 @@ spec:
         "list": [
           {
             "allValue": null,
-            "current": {},
-            "datasource": "${DS_PROMETHEUS}",
+            "current": {
+              "text": "fuse76-sb2-1-bkjtl",
+              "value": "fuse76-sb2-1-bkjtl"
+            },
+            "datasource": "Prometheus",
             "definition": "label_values(pod)",
             "hide": 0,
             "includeAll": false,
@@ -736,8 +873,11 @@ spec:
           },
           {
             "allValue": null,
-            "current": {},
-            "datasource": "${DS_PROMETHEUS}",
+            "current": {
+              "text": "customers",
+              "value": "customers"
+            },
+            "datasource": "Prometheus",
             "definition": "label_values(service)",
             "hide": 0,
             "includeAll": false,
@@ -758,8 +898,11 @@ spec:
           },
           {
             "allValue": null,
-            "current": {},
-            "datasource": "${DS_PROMETHEUS}",
+            "current": {
+              "text": "fuse7",
+              "value": "fuse7"
+            },
+            "datasource": "Prometheus",
             "definition": "label_values(namespace)",
             "hide": 0,
             "includeAll": false,
@@ -812,5 +955,5 @@ spec:
       "timezone": "",
       "title": "Fuse/CamelK Metrics",
       "uid": "bIx0BxeZk",
-      "version": 23
+      "version": 1
     }
