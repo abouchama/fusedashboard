@@ -16,6 +16,7 @@ metadata:
   name: grafana-operator
   namespace: fuse7
 spec:
+  channel: alpha
   installPlanApproval: Automatic
   name: grafana-operator
   source: community-operators
