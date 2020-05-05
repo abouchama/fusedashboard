@@ -3,8 +3,8 @@ Creating Service monitor for our Fuse applications that should be monitored.
 Run the following commands per Fuse Service:
 
 ```
-export FUSE_SERVICE_NAME=customers2
-export NAMESPACE=fuse7
+#export FUSE_SERVICE_NAME=customers3
+#export NAMESPACE=fuse7
 
 cat <<EOF | kubectl apply -f -
 apiVersion: monitoring.coreos.com/v1
@@ -21,7 +21,9 @@ spec:
    endpoints:
    - port: web
 EOF
+```
 
+```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
@@ -32,7 +34,7 @@ metadata:
       app: $FUSE_SERVICE_NAME
 spec:
     selector:
-      app: $FUSE_SERVICE_NAME
+      camel.apache.org/integration: $FUSE_SERVICE_NAME
     ports:
     - name: web
       port: 9779
