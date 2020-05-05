@@ -36,12 +36,6 @@ oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/grafana.yaml
 ```
 
-Open Grafana Console:
-
-```
-open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
-```
-
 # Creating Grafana Datasource
 ```
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/prometheus-ds.yaml
@@ -55,3 +49,9 @@ To create Fuse Dashboard in the fuse namespace run:
 $ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/FuseDashboard.yaml
 ```
 NOTE: it can take up to a minute until new dashboards are discovered by Grafana.
+
+# Open Grafana Console:
+
+```
+open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
+```
