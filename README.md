@@ -115,3 +115,7 @@ NOTE: it can take up to a minute until new dashboards are discovered by Grafana.
 ```
 open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
 ```
+
+### Fuse / CamelK Grafana Dashboard
+
+![alt text](https://raw.githubusercontent.com/abouchama/fusedashboard/master/images/Fuse_CamelK_Grafana_Dashboard.png)
