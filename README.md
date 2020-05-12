@@ -1,4 +1,64 @@
-The following Grafana resources are supported:
+# Prometheus 
+
+- Install the custom resource definitions necessary for running the Prometheus operator
+
+```
+# Install prometheus CRD:
+
+oc replace -f https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.0.fuse-760042-redhat-00001/fuse-prometheus-crd.yml
+```
+
+- Install the Prometheus operator to your namespace
+
+```
+oc process -f https://raw.githubusercontent.com/jboss-fuse/application-templates/application-templates-2.1.0.fuse-760042-redhat-00001/fuse-prometheus-operator.yml -p NAMESPACE=fuse7 | oc create -f -
+```
+
+### Service Monitor
+Creating Service monitor for our Fuse applications that should be monitored.
+Run the following commands per Fuse Service:
+
+```
+#export FUSE_SERVICE_NAME=customers3
+#export NAMESPACE=fuse7
+
+cat <<EOF | kubectl apply -f -
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+   name: $FUSE_SERVICE_NAME
+   namespace: $NAMESPACE
+   labels:
+     team: fuse
+spec:
+   selector:
+     matchLabels:
+       app: $FUSE_SERVICE_NAME
+   endpoints:
+   - port: web
+EOF
+```
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+    name: $FUSE_SERVICE_NAME
+    namespace: $NAMESPACE
+    labels:
+      app: $FUSE_SERVICE_NAME
+spec:
+    selector:
+      camel.apache.org/integration: $FUSE_SERVICE_NAME
+    ports:
+    - name: web
+      port: 9779
+EOF
+```
+
+# Grafana
+The Grafana operator provides the following api resources:
 
 - Grafana
 - GrafanaDashboard
@@ -6,20 +66,56 @@ The following Grafana resources are supported:
 
 all custom resources use the api group `integreatly.org` and version `v1alpha1`.
 
-# Creating Grafana Instance
+### Install Grafana Operator
 
-$ oc create -f grafana.yaml
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: grafana-operator
+  namespace: fuse7
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: grafana-operator
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+EOF
+```
 
-# Creating Grafana Datasource
+Since the operator takes some time to install, We should wait for it to complete.
+We can check with if the `status` is `Succeeded` with the following command:
 
-$ oc create -f prometheus-ds.yaml
+```
+oc get csv -n fuse7 grafana-operator.v2.0.0 -o jsonpath='{.status.phase}'
+```
 
-# Creating Fuse dashboard
+### Creating Grafana Instance
+```
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/grafana.yaml
+```
+
+### Creating Grafana Datasource
+```
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/prometheus-ds.yaml
+```
+### Creating Fuse dashboard
 
 By default the operator only watches for dashboards in it's own namespace. To watch for dashboards in other namespaces, the `--scan-all` flag must be passed.
 
 To create Fuse Dashboard in the fuse namespace run:
-
-$ oc create -f FuseDashboard.yaml -n fuse
-
+```
+$ oc create -f https://raw.githubusercontent.com/abouchama/fusedashboard/master/FuseDashboard.yaml
+```
 NOTE: it can take up to a minute until new dashboards are discovered by Grafana.
+
+### Open Grafana Console:
+
+```
+open https://$(oc get routes/grafana-route -o yaml | yq read - 'spec.host')
+```
+
+### Fuse / CamelK Grafana Dashboard
+
+![alt text](https://raw.githubusercontent.com/abouchama/fusedashboard/master/images/Fuse_CamelK_Grafana_Dashboard.png)
